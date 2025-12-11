@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - InvoSave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f4f7ff] to-[#e8f2ff] relative overflow-hidden p-4">
+<header class="absolute top-0 left-0 right-0 w-full flex justify-between items-center px-4 py-4 md:px-8">
+
+    <img src="../images/image3.png" class ="w-45 h-40">
+
+
+    <a href="../html/signup.html"
+       class="px-4 py-2 md:px-6 md:py-3 bg-blue-700 text-white font-semibold rounded
+              hover:bg-blue-800 transition shadow-[4px_4px_0_rgba(0,0,0,0.8)] md:shadow-[6px_6px_0_rgba(0,0,0,0.8)]
+              text-sm md:text-base">
+        Criar Conta
+    </a>
+</header>
+<div class="absolute right-[-80px] md:right-[-150px] bottom-[-30px] md:bottom-[-60px] w-[400px] md:w-[800px] opacity-30 md:opacity-40
+            pointer-events-none select-none">
+    <div class="w-full h-full bg-blue-300 rounded-full blur-2xl"></div>
+</div>
+
+<div class="absolute left-[-100px] md:left-[-180px] top-[-40px] md:top-[-80px] w-[250px] md:w-[500px] opacity-20 md:opacity-25
+            pointer-events-none select-none">
+    <div class="w-full h-full bg-blue-200 rounded-full blur-2xl"></div>
+</div>
+
+<main class="w-full max-w-sm md:w-[420px] bg-white rounded-xl md:rounded-2xl p-6 md:p-10 relative z-10
+            shadow-[8px_8px_0_rgba(0,0,0,0.9)] md:shadow-[10px_10px_0_rgba(0,0,0,0.9)] mt-20 md:mt-0">
+
+    <h1 class="text-3xl md:text-5xl font-extrabold text-black flex justify-center">Log In</h1>
+    <form id="loginForm" class="flex flex-col items-center w-full mt-8 md:mt-12 gap-4 md:gap-6">
+
+        <div class="w-full">
+            <div class="border-2 border-black rounded-lg flex items-center px-4 py-3 bg-white
+                        shadow-[4px_4px_0_rgba(0,0,0,0.7)] md:shadow-[6px_6px_0_rgba(0,0,0,0.7)]">
+                <span class="text-blue-600 mr-3 font-bold">@</span>
+                <input type="text" id="email" name="email" placeholder="Introduza seu email"
+                       class="w-full outline-none text-base placeholder-gray-400 bg-transparent">
+            </div>
+            <div class="message-container mt-1 min-h-[20px]"></div>
+        </div>
+
+        <div class="w-full">
+            <div class="border-2 border-black rounded-lg flex items-center px-4 py-3 bg-white
+                        shadow-[4px_4px_0_rgba(0,0,0,0.7)] md:shadow-[6px_6px_0_rgba(0,0,0,0.7)]">
+                <span class="text-blue-600 mr-3 font-bold">#</span>
+                <input type="password" id="senha" name="senha" placeholder="Introduza uma Palavra-passe"
+                       class="w-full outline-none text-base placeholder-gray-400 bg-transparent">
+            </div>
+            <div class="message-container mt-1 min-h-[20px]"></div>
+        </div>
+
+        <button type="submit" class="bg-blue-700 text-white font-semibold text-base md:text-lg px-8 md:px-16 py-3 md:py-4 rounded-lg
+                       hover:bg-blue-800 transition shadow-[4px_4px_0_rgba(0,0,0,0.7)] md:shadow-[6px_6px_0_rgba(0,0,0,0.7)]
+                       w-full">
+            Iniciar Sessão
+        </button>
+    </form>
+    <a href="#" class="block text-gray-500 text-sm mt-6 text-center">Esqueceu a palavra-passe?</a>
+
+    <div class="absolute bottom-4 right-4 md:bottom-10 md:right-20 opacity-20 grid grid-cols-3 gap-1 md:grid-cols-6 md:gap-2">
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+    </div>
+</main>
+
+<script src="../scripts/login.js"></script>
+</body>
+</html>
