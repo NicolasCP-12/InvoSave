@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign Up - InvoSave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/pocketbase/dist/pocketbase.umd.js"></script>
+  </head>
+
+  <body
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f4f7ff] to-[#e8f2ff] relative overflow-hidden p-4"
+  >
+    <header
+      class="absolute top-0 left-0 right-0 w-full flex justify-between items-center px-4 py-4 md:px-8"
+    >
+      <img src="../images/image3.png" class="w-45 h-40" />
+      <a
+        href="../html/login2.html"
+        class="px-4 py-2 md:px-6 md:py-3 bg-blue-700 text-white font-semibold rounded hover:bg-blue-800 transition shadow-[4px_4px_0_rgba(0,0,0,0.8)] md:shadow-[6px_6px_0_rgba(0,0,0,0.8)] text-sm md:text-base"
+      >
+        Log In
+      </a>
+    </header>
+
+    <div
+      class="absolute right-[-80px] md:right-[-150px] bottom-[-30px] md:bottom-[-60px] w-[400px] md:w-[800px] opacity-30 md:opacity-40 pointer-events-none select-none"
+    >
+      <div class="w-full h-full bg-blue-300 rounded-full blur-2xl"></div>
+    </div>
+
+    <div
+      class="absolute left-[-100px] md:left-[-180px] top-[-40px] md:top-[-80px] w-[250px] md:w-[500px] opacity-20 md:opacity-25 pointer-events-none select-none"
+    >
+      <div class="w-full h-full bg-blue-200 rounded-full blur-2xl"></div>
+    </div>
+
+    <main
+      class="w-full max-w-sm md:w-[480px] bg-white rounded-xl md:rounded-2xl p-6 md:p-10 relative z-10 shadow-[8px_8px_0_rgba(0,0,0,0.9)] md:shadow-[10px_10px_0_rgba(0,0,0,0.9)] mt-20 md:mt-0"
+    >
+      <h1 class="text-3xl md:text-5xl font-extrabold text-black mb-2">
+        Create Account
+      </h1>
+      <p class="text-gray-500 mb-8">Sign up for InvoSave</p>
+
+      <form id="signupForm" class="flex flex-col w-full gap-4 md:gap-6">
+        <div class="w-full">
+          <label class="block text-gray-700 text-sm font-medium mb-2"
+            >Email</label
+          >
+          <div
+            class="border-2 border-black rounded-lg flex items-center px-4 py-3 bg-white shadow-[4px_4px_0_rgba(0,0,0,0.7)] md:shadow-[6px_6px_0_rgba(0,0,0,0.7)]"
+          >
+            <span class="text-blue-600 mr-3 font-bold">@</span>
+            <input
+              type="email"
+              id="email"
+              placeholder="name@example.com"
+              class="w-full outline-none text-base placeholder-gray-500 bg-transparent"
+            />
+          </div>
+          <div class="message-container mt-1 min-h-[20px]"></div>
+        </div>
+
+        <div class="w-full">
+          <label class="block text-gray-700 text-sm font-medium mb-2"
+            >Password</label
+          >
+          <div
+            class="border-2 border-black rounded-lg flex items-center px-4 py-3 bg-white shadow-[4px_4px_0_rgba(0,0,0,0.7)] md:shadow-[6px_6px_0_rgba(0,0,0,0.7)]"
+          >
+            <span class="text-blue-600 mr-3 font-bold">#</span>
+            <input
+              type="password"
+              id="password"
+              placeholder="Create a password"
+              class="w-full outline-none text-base placeholder-gray-500 bg-transparent"
+            />
+            <div
+              class="password-toggle text-blue-600 ml-2 cursor-pointer"
+              id="togglePassword"
+            >
+              👁️
+            </div>
+          </div>
+          <div class="message-container mt-1 min-h-[20px]"></div>
+        </div>
+
+        <div class="w-full">
+          <label class="block text-gray-700 text-sm font-medium mb-2"
+            >Confirm Password</label
+          >
+          <div
+            class="border-2 border-black rounded-lg flex items-center px-4 py-3 bg-white shadow-[4px_4px_0_rgba(0,0,0,0.7)] md:shadow-[6px_6px_0_rgba(0,0,0,0.7)]"
+          >
+            <span class="text-blue-600 mr-3 font-bold">✓</span>
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Repeat the password"
+              class="w-full outline-none text-base placeholder-gray-500 bg-transparent"
+            />
+            <div
+              class="password-toggle text-blue-600 ml-2 cursor-pointer"
+              id="toggleConfirmPassword"
+            >
+              👁️
+            </div>
+          </div>
+          <div class="message-container mt-1 min-h-[20px]"></div>
+        </div>
+
+        <button
+          type="submit"
+          class="bg-blue-700 text-white font-semibold text-lg py-3 md:py-4 rounded-lg mt-2 hover:bg-blue-800 transition-all duration-300 shadow-[4px_4px_0_rgba(0,0,0,0.7)] md:shadow-[6px_6px_0_rgba(0,0,0,0.7)] w-full btn-shadow"
+        >
+          Register
+        </button>
+
+        <div class="mt-6 text-center text-gray-600 text-sm">
+          Already have an account?
+          <a
+            href="../html/login2.html"
+            class="text-blue-600 font-medium hover:text-blue-800"
+          >
+            Log in
+          </a>
+        </div>
+      </form>
+
+      <div
+        class="absolute bottom-4 right-4 md:bottom-10 md:right-20 opacity-20 grid grid-cols-3 gap-1 md:grid-cols-6 md:gap-2"
+      >
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+        <div class="w-1 h-1 bg-blue-400 rounded-full"></div>
+      </div>
+    </main>
+
+    <script src="../scripts/signup.js"></script>
+  </body>
+</html>

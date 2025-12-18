@@ -1,75 +1,87 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("loginForm");
-    const email = document.getElementById("email");
-    const senha = document.getElementById("senha");
+  const pb = new PocketBase("http://127.0.0.1:8090");
 
-    function showMessage(input, message, type) {
-        const inputContainer = input.parentElement.parentElement;
-        const msgContainer = inputContainer.querySelector(".message-container");
+  const form = document.getElementById("loginForm");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
 
-        msgContainer.innerHTML = "";
+  // Displays a message (error or success) next to an input field.
+  function showMessage(input, message, type) {
+    const inputContainer = input.parentElement.parentElement;
+    const msgContainer = inputContainer.querySelector(".message-container");
 
-        const msg = document.createElement("p");
-        msg.textContent = message;
-        msg.classList.add("text-sm");
+    msgContainer.innerHTML = "";
 
-        if (type === "error") {
-            msg.classList.add("text-red-600");
-            // Aplica borda vermelha ao container do input
-            input.parentElement.classList.add("border-red-500");
-            input.parentElement.classList.remove("border-black");
-        } else {
-            msg.classList.add("text-green-600");
-            // Aplica borda verde ao container do input
-            input.parentElement.classList.add("border-green-500");
-            input.parentElement.classList.remove("border-black");
-        }
+    const msg = document.createElement("p");
+    msg.textContent = message;
+    msg.classList.add("text-sm");
 
-        msgContainer.appendChild(msg);
+    if (type === "error") {
+      msg.classList.add("text-red-600");
+      input.parentElement.classList.add("border-red-500");
+      input.parentElement.classList.remove("border-black");
+    } else {
+      msg.classList.add("text-green-600");
+      input.parentElement.classList.add("border-green-500");
+      input.parentElement.classList.remove("border-black");
     }
 
-    function clearMessage(input) {
-        const inputContainer = input.parentElement.parentElement;
-        const msgContainer = inputContainer.querySelector(".message-container");
-        msgContainer.innerHTML = "";
-        input.parentElement.classList.remove("border-red-500", "border-green-500");
-        input.parentElement.classList.add("border-black");
+    msgContainer.appendChild(msg);
+  }
+
+  // Clears any message displayed next to an input field.
+  function clearMessage(input) {
+    const inputContainer = input.parentElement.parentElement;
+    const msgContainer = inputContainer.querySelector(".message-container");
+    msgContainer.innerHTML = "";
+    input.parentElement.classList.remove("border-red-500", "border-green-500");
+    input.parentElement.classList.add("border-black");
+  }
+
+  // Validates an email address format using a regular expression. Prevent multiple @
+  function validateEmail(value) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(value);
+  }
+
+  // Handles the login form submission.
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    let valid = true;
+
+    // Validates the email and password inputs.
+    if (emailInput.value.trim() === "") {
+      showMessage(emailInput, "Email is required.", "error");
+      valid = false;
+    } else if (!validateEmail(emailInput.value.trim())) {
+      showMessage(emailInput, "Invalid email format.", "error");
+      valid = false;
+    } else {
+      clearMessage(emailInput);
     }
 
-    function validateEmail(value) {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(value);
+    if (passwordInput.value.trim() === "") {
+      showMessage(passwordInput, "Password is required.", "error");
+      valid = false;
+    } else {
+      clearMessage(passwordInput);
     }
 
-    form.addEventListener("submit", (e) => {
-        e.preventDefault(); // Previne o envio para testar a validação
-        let valid = true;
+    if (valid) {
+      try {
+        const authData = await pb
+          .collection("users")
+          .authWithPassword(emailInput.value, passwordInput.value);
 
-        if (email.value.trim() === "") {
-            showMessage(email, "O email é obrigatório.", "error");
-            valid = false;
-        } else if (!validateEmail(email.value.trim())) {
-            showMessage(email, "Formato de email inválido.", "error");
-            valid = false;
-        } else {
-            showMessage(email, "Email válido ✔", "success");
-        }
+        window.location.href = "main2.html";
+      } catch (error) {
+        showMessage(emailInput, "Invalid email or password.", "error");
+        showMessage(passwordInput, "Invalid email or password.", "error");
+      }
+    }
+  });
 
-        if (senha.value.trim() === "") {
-            showMessage(senha, "A password é obrigatória.", "error");
-            valid = false;
-        } else if (senha.value.length < 6) {
-            showMessage(senha, "A password deve ter pelo menos 6 caracteres.", "error");
-            valid = false;
-        } else {
-            showMessage(senha, "Password válida ✔", "success");
-        }
-
-        if (valid) {
-            alert("Login válido! Formulário pode ser enviado.");
-        }
-    });
-
-    email.addEventListener("input", () => clearMessage(email));
-    senha.addEventListener("input", () => clearMessage(senha));
+  // Clears validation messages in real-time as the user types.
+  emailInput.addEventListener("input", () => clearMessage(emailInput));
+  passwordInput.addEventListener("input", () => clearMessage(passwordInput));
 });

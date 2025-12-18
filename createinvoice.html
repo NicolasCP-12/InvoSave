@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300..900&family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://unpkg.com/pocketbase/dist/pocketbase.umd.js"></script>
+
+    <script defer src="scripts/createInvoice.js"></script>
+    <title>InvoSave — Add Invoice</title>
+
+    <style>
+      body {
+        font-family: "Manrope", sans-serif;
+      }
+      .logo-text {
+        font-family: "Fraunces", serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-[#F4F4F4] text-black">
+    <div class="flex min-h-screen">
+      <aside
+        class="w-[80px] fixed top-0 left-0 h-screen bg-white border-r-[4px] border-black drop-shadow-[6px_6px_0px_rgba(0,0,0,1)] flex flex-col justify-between py-6 z-50"
+      >
+        <div class="flex flex-col items-center gap-4">
+          <div
+            class="text-2xl font-black logo-text tracking-tight px-3 py-1 border-[3px] border-black bg-[#465FFF] text-white drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+          >
+            i
+          </div>
+        </div>
+
+        <nav class="flex flex-col items-center gap-6">
+          <a
+            href="main2.html"
+            class="cursor-pointer p-3 border-[3px] border-black bg-white hover:bg-[#465FFF] hover:text-white transition-all drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+            title="Dashboard"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="7" height="9" rx="1" />
+              <rect x="14" y="3" width="7" height="5" rx="1" />
+              <rect x="14" y="12" width="7" height="9" rx="1" />
+              <rect x="3" y="16" width="7" height="5" rx="1" />
+            </svg>
+          </a>
+
+          <div
+            class="cursor-pointer p-3 border-[3px] border-black bg-[#FFC700] text-black transition-all drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+            title="Add Invoice"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          </div>
+        </nav>
+
+        <div class="flex flex-col items-center">
+          <button
+            id="logout-button"
+            class="p-3 border-[3px] border-black bg-white hover:bg-red-500 hover:text-white transition-all drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+            title="Logout"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"
+              />
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <main class="flex-1 ml-[80px]">
+        <header
+          class="w-full bg-white border-b-[4px] border-black drop-shadow-[6px_6px_0px_rgba(0,0,0,1)] p-6 flex justify-between items-center"
+        >
+          <h1 class="text-4xl font-black logo-text tracking-tight">
+            invo<span class="text-[#465FFF]">save</span>
+          </h1>
+
+          <div class="flex items-center gap-4">
+            <div>
+              <button
+                class="relative flex items-center cursor-pointer justify-center text-black bg-white border-[3px] border-black rounded-full h-11 w-11 hover:bg-gray-200 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-sun w-5 h-5"
+                >
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v2" />
+                  <path d="M12 20v2" />
+                  <path d="m4.93 4.93 1.41 1.41" />
+                  <path d="m17.66 17.66 1.41 1.41" />
+                  <path d="M2 12h2" />
+                  <path d="M20 12h2" />
+                  <path d="m6.34 17.66-1.41 1.41" />
+                  <path d="m19.07 4.93-1.41 1.41" />
+                </svg>
+              </button>
+            </div>
+
+            <div>
+              <button
+                class="relative flex items-center cursor-pointer justify-center text-black bg-white border-[3px] border-black rounded-full h-11 w-11 hover:bg-gray-200 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all"
+              >
+                <span
+                  class="absolute right-0 top-0.5 z-[1] h-3 w-3 rounded-full bg-red-500 border-2 border-white"
+                >
+                  <span
+                    class="absolute inline-flex w-full h-full bg-red-500 rounded-full opacity-75 z-[-1] animate-ping"
+                  ></span>
+                </span>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-bell w-5 h-5"
+                >
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                </svg>
+              </button>
+            </div>
+
+            <div
+              class="flex items-center gap-3 px-4 py-2 border-[3px] border-black bg-white drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+            >
+              <img
+                src="https://themewagon.github.io/tailadmin-vuejs/images/user/owner.jpg"
+                alt="User"
+                class="w-10 h-10 rounded-full border-[3px] border-black object-cover"
+              />
+              <span id="user-span" class="font-bold"></span>
+            </div>
+          </div>
+        </header>
+
+        <section class="p-10">
+          <form
+            id="invoice-form"
+            class="mx-auto max-w-4xl rounded-[14px] border-[4px] border-black drop-shadow-[8px_8px_0px_rgba(0,0,0,1)] bg-white p-6 md:p-10"
+          >
+            <div class="space-y-12">
+              <div class="border-b-[3px] border-gray-300 pb-10">
+                <div class="flex flex-row items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="size-8 text-[#465FFF]"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.25 11.25a.75.75 0 0 1 1.104-.67l-.71 2.84a.75.75 0 1 0 1.06.85l.04-.02M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75H12V8.3h.01V8.25Z"
+                    />
+                  </svg>
+                  <h2
+                    class="ml-3 text-3xl font-black logo-text tracking-tight text-gray-900"
+                  >
+                    Invoice Information
+                  </h2>
+                </div>
+
+                <div
+                  class="mt-10 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2"
+                >
+                  <div class="sm:col-span-full">
+                    <label
+                      for="product-name"
+                      class="block text-lg font-bold text-gray-900"
+                    >
+                      Product name *
+                    </label>
+
+                    <input
+                      id="product-name"
+                      name="product-name"
+                      type="text"
+                      autocomplete="off"
+                      class="mt-3 block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 border-[3px] border-black drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] placeholder:text-gray-500 focus:outline-none focus:border-[#465FFF] focus:drop-shadow-[5px_5px_0px_rgba(70,95,255,1)] transition-all"
+                    />
+                  </div>
+
+                  <div class="sm:col-span-full md:col-span-1">
+                    <label
+                      for="category"
+                      class="block text-lg font-bold text-gray-900"
+                    >
+                      Category *
+                    </label>
+
+                    <div class="mt-3">
+                      <select
+                        id="category"
+                        name="category"
+                        autocomplete="off"
+                        class="w-full rounded-lg bg-white py-3 pl-4 pr-10 text-base text-gray-900 border-[3px] border-black drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:outline-none focus:border-[#465FFF] focus:drop-shadow-[5px_5px_0px_rgba(70,95,255,1)] transition-all"
+                      >
+                        <option>Electronics</option>
+                        <option>Home Appliances</option>
+                        <option>Furniture</option>
+                        <option>IT</option>
+                        <option>Mobile Phones</option>
+                        <option>Tools</option>
+                        <option>Vehicles</option>
+                        <option>Others</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="sm:col-span-full md:col-span-1">
+                    <label
+                      for="store-bought"
+                      class="block text-lg font-bold text-gray-900"
+                    >
+                      Store
+                    </label>
+
+                    <input
+                      id="store-bought"
+                      name="store-bought"
+                      type="text"
+                      autocomplete="off"
+                      class="mt-3 block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 border-[3px] border-black drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] placeholder:text-gray-500 focus:outline-none focus:border-[#465FFF] focus:drop-shadow-[5px_5px_0px_rgba(70,95,255,1)] transition-all"
+                    />
+                  </div>
+
+                  <div class="sm:col-span-full md:col-span-1">
+                    <label
+                      for="price"
+                      class="block text-lg font-bold text-gray-900"
+                    >
+                      Price
+                    </label>
+
+                    <input
+                      id="price"
+                      name="price"
+                      type="text"
+                      autocomplete="off"
+                      class="mt-3 block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 border-[3px] border-black drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] placeholder:text-gray-500 focus:outline-none focus:border-[#465FFF] focus:drop-shadow-[5px_5px_0px_rgba(70,95,255,1)] transition-all"
+                    />
+                  </div>
+
+                  <div class="sm:col-span-full md:col-span-1">
+                    <label
+                      for="invoice-number"
+                      class="block text-lg font-bold text-gray-900"
+                    >
+                      Invoice Number
+                    </label>
+
+                    <input
+                      id="invoice-number"
+                      name="invoice-number"
+                      type="text"
+                      autocomplete="off"
+                      class="mt-3 block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 border-[3px] border-black drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] placeholder:text-gray-500 focus:outline-none focus:border-[#465FFF] focus:drop-shadow-[5px_5px_0px_rgba(70,95,255,1)] transition-all"
+                    />
+                  </div>
+
+                  <div class="sm:col-span-full md:col-span-1">
+                    <label
+                      for="purchase-date"
+                      class="block text-lg font-bold text-gray-900"
+                    >
+                      Purchase Date *
+                    </label>
+
+                    <input
+                      id="purchase-date"
+                      name="purchase-date"
+                      type="date"
+                      autocomplete="off"
+                      class="mt-3 block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 border-[3px] border-black drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] placeholder:text-gray-500 focus:outline-none focus:border-[#465FFF] focus:drop-shadow-[5px_5px_0px_rgba(70,95,255,1)] transition-all"
+                    />
+                  </div>
+
+                  <div class="sm:col-span-full md:col-span-1">
+                    <label
+                      for="warranty-months"
+                      class="block text-lg font-bold text-gray-900"
+                    >
+                      Warranty (months) *
+                    </label>
+
+                    <input
+                      id="warranty-months"
+                      name="warranty-months"
+                      type="number"
+                      min="0"
+                      autocomplete="off"
+                      class="mt-3 block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 border-[3px] border-black drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] placeholder:text-gray-500 focus:outline-none focus:border-[#465FFF] focus:drop-shadow-[5px_5px_0px_rgba(70,95,255,1)] transition-all"
+                    />
+                  </div>
+
+                  <div class="sm:col-span-full md:col-span-1">
+                    <label
+                      for="invoice-file"
+                      class="block text-lg font-bold text-gray-900"
+                    >
+                      Invoice File
+                    </label>
+
+                    <input
+                      id="invoice-file"
+                      name="invoice-file"
+                      type="file"
+                      autocomplete="off"
+                      class="mt-3 block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 border-[3px] border-black drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] placeholder:text-gray-500 focus:outline-none focus:border-[#465FFF] focus:drop-shadow-[5px_5px_0px_rgba(70,95,255,1)] transition-all"
+                    />
+                  </div>
+
+                  <div class="sm:col-span-full">
+                    <label
+                      for="notes"
+                      class="block text-lg font-bold text-gray-900"
+                    >
+                      Notes
+                    </label>
+
+                    <textarea
+                      id="notes"
+                      name="notes"
+                      rows="3"
+                      class="mt-3 block w-full rounded-lg bg-white px-4 py-3 text-base text-gray-900 border-[3px] border-black drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] placeholder:text-gray-500 focus:outline-none focus:border-[#465FFF] focus:drop-shadow-[5px_5px_0px_rgba(70,95,255,1)] transition-all"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 flex items-center justify-end gap-x-6">
+              <button
+                type="button"
+                class="text-lg font-black px-6 py-3 border-[4px] border-black bg-white rounded-[10px] drop-shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:bg-gray-200 transition-all"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="flex flex-row items-center rounded-[10px] bg-[#465FFF] px-6 py-3 text-lg font-black text-white border-[4px] border-black drop-shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:bg-[#3950D4] transition-all"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-check-circle w-5 h-5 mr-2"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <path d="m9 11 3 3L22 4" />
+                </svg>
+                Save Invoice
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
