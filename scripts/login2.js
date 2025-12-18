@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     input.parentElement.classList.add("border-black");
   }
 
-  // Validates an email address format using a regular expression. Prevent multiple @
+  // Validates an email address format using a regular expression. Prevent multiple @.
   function validateEmail(value) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(value);

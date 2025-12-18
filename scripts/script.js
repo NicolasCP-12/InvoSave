@@ -1,10 +1,10 @@
-// This script runs when the DOM is fully loaded.
 document.addEventListener("DOMContentLoaded", async () => {
   const pb = new PocketBase("http://127.0.0.1:8090");
 
   const invoiceContainer = document.getElementById("invoice-container");
   const userSpan = document.querySelector("#user-span");
   const logoutButton = document.getElementById("logout-button");
+  const searchInput = document.getElementById("search-input");
 
   const metricActive = document.getElementById("metric-active");
   const metricExpiring = document.getElementById("metric-expiring");
@@ -30,8 +30,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Handles the logout process when the logout button is clicked.
   if (logoutButton) {
     logoutButton.addEventListener("click", () => {
-      pb.authStore.clear();
-      window.location.href = "login2.html";
+      pb.authStore.clear(); // Clears authentication data.
+      window.location.href = "login2.html"; // Redirects to the login page.
     });
   }
 
@@ -151,14 +151,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const now = new Date();
 
     if (expirationDate < now) {
-      return { text: "Expired", color: "red" };
+      return { text: "Expired", color: "#FF4D4D" };
     } else {
       const thirtyDaysFromNow = new Date();
       thirtyDaysFromNow.setDate(now.getDate() + 30);
       if (expirationDate <= thirtyDaysFromNow) {
-        return { text: "Expiring Soon", color: "yellow" };
+        return { text: "Expiring Soon", color: "#FFE570" };
       } else {
-        return { text: "Active", color: "green" };
+        return { text: "Active", color: "#00C471" };
       }
     }
   }
@@ -168,7 +168,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const card = document.createElement("div");
     card.className =
       "invoice-card bg-white border-[4px] border-black rounded-[14px] p-6 drop-shadow-[8px_8px_0px_rgba(0,0,0,1)] flex flex-col justify-between cursor-pointer hover:scale-105 transition-transform";
-
     // Stores the full invoice object as a data attribute to be used by the modal.
     card.dataset.invoice = JSON.stringify(invoice);
 
@@ -188,7 +187,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <h3 class="text-2xl font-black logo-text tracking-tight">${
                       invoice.title
                     }</h3>
-                    <span class="text-sm font-bold px-3 py-1 rounded-full text-black" style="background-color: ${
+                    <span class="text-sm font-bold px-3 py-1 rounded-full border-black text-black" style="background-color: ${
                       status.color
                     };">${status.text}</span>
                 </div>
@@ -224,7 +223,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     return card;
   }
 
-  // Fetches all invoices for the current user and displays them on the page.
+  // Search functionality.
+  searchInput.addEventListener("input", (e) => {
+    const searchText = e.target.value.toLowerCase();
+    const invoiceCards = invoiceContainer.querySelectorAll(".invoice-card");
+
+    invoiceCards.forEach((card) => {
+      const invoiceData = JSON.parse(card.dataset.invoice);
+      const title = invoiceData.title.toLowerCase();
+      const category = invoiceData.category.toLowerCase();
+      const store = (invoiceData.store || "").toLowerCase();
+      const notes = (invoiceData.notes || "").toLowerCase();
+
+      const isVisible =
+        title.includes(searchText) ||
+        category.includes(searchText) ||
+        store.includes(searchText) ||
+        notes.includes(searchText);
+
+      card.style.display = isVisible ? "flex" : "none";
+    });
+  });
+
+  // Fetches all invoices for the current user and renders them on the page.
   async function loadInvoices() {
     try {
       const records = await pb.collection("invoices").getFullList({
